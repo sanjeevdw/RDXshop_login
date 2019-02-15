@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">RDXshop</string>
+    <string name="no_internet_connection">No internet connection&#8230;</string>
+    <string name="no_internet_connection_two">Oops&#8230; it seems you can\'t connect to our network, check your internet connection.</string>
+    <string name="reload_button">Reload page</string>
+</resources>
+
