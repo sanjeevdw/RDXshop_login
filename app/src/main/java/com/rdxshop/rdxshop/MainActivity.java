@@ -1,8 +1,10 @@
 package com.rdxshop.rdxshop;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -31,6 +33,7 @@ import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -68,15 +71,27 @@ public class MainActivity extends AppCompatActivity {
     private Context mContext;
     private GoogleSignInClient mGoogleSignInClient;
     private static final int RC_SIGN_IN = 6;
+    private static final int RESULTCODE_SIGN_IN = -1;
+    private static final int RESULTCODE_SIGN_IN_FAILED = 0;
     private String usernameGoogle;
     private String sessionGoogleEmail;
     private WebView mWebviewPop;
+    private String authRedirectURL;
+    private ProgressDialog loading = null;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
+            setTheme(R.style.Theme_AppCompat_Light_NoActionBar);
             super.onCreate(savedInstanceState);
+            this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-            // OneSignal Initialization
+        /*   loading = new ProgressDialog(this);
+           loading.setCancelable(true);
+           loading.setMessage("Loading Wait while loading...");
+           loading.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+           loading.show(); */
+
+           // OneSignal Initialization
             OneSignal.startInit(this)
                     .inFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification)
                     .unsubscribeWhenNotificationsAreDisabled(true)
@@ -86,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(Color.parseColor("#ea2313"));
+
 
             session = new Session(this);
             sessionToken = session.getusertoken();
@@ -106,9 +122,16 @@ public class MainActivity extends AppCompatActivity {
             ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
             if (activeNetwork != null) {
+
                 // connected to the internet
                 if (activeNetwork.getType() == ConnectivityManager.TYPE_WIFI) {
                     // connected to wifi
+
+                    loading = new ProgressDialog(this);
+                    loading.setMessage("Please wait while loading");
+                    
+
+
                     setContentView(R.layout.activity_main);
                     this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
@@ -117,7 +140,11 @@ public class MainActivity extends AppCompatActivity {
                     android_id = Settings.Secure.getString(getApplicationContext().getContentResolver(),
                             Settings.Secure.ANDROID_ID);
                     myWebView = (WebView) findViewById(R.id.webview);
-                    myWebView.loadUrl("http://rdxshop.com/");
+                    if (!loading.isShowing()) {
+                        loading.show();
+                    }
+                    myWebView.loadUrl("https://www.rdxshop.com/");
+                  //  loading.dismiss();
                     myWebView.setWebContentsDebuggingEnabled(false);
                     WebSettings webSettings = myWebView.getSettings();
                     webSettings.setJavaScriptEnabled(true);
@@ -151,7 +178,10 @@ public class MainActivity extends AppCompatActivity {
                     android_id = Settings.Secure.getString(getApplicationContext().getContentResolver(),
                             Settings.Secure.ANDROID_ID);
                     myWebView = (WebView) findViewById(R.id.webview);
-                    myWebView.loadUrl("http://rdxshop.com/");
+                    if (!loading.isShowing()) {
+                        loading.show();
+                    }
+                    myWebView.loadUrl("https://www.rdxshop.com/");
                     WebSettings webSettings = myWebView.getSettings();
                     webSettings.setJavaScriptEnabled(true);
                     myWebView.setWebViewClient(new MyWebViewClient());
@@ -191,7 +221,10 @@ public class MainActivity extends AppCompatActivity {
                                 // connected to wifi
                                 setContentView(R.layout.activity_main);
                                 myWebView = (WebView) findViewById(R.id.webview);
-                                myWebView.loadUrl("http://rdxshop.com/");
+                                if (!loading.isShowing()) {
+                                    loading.show();
+                                }
+                                myWebView.loadUrl("https://www.rdxshop.com/");
                                 WebSettings webSettings = myWebView.getSettings();
                                 webSettings.setJavaScriptEnabled(true);
                                 myWebView.setWebViewClient(new MyWebViewClient());
@@ -216,7 +249,10 @@ public class MainActivity extends AppCompatActivity {
                                 // connected to mobile data
                                 setContentView(R.layout.activity_main);
                                 myWebView = (WebView) findViewById(R.id.webview);
-                                myWebView.loadUrl("http://rdxshop.com/");
+                                if (!loading.isShowing()) {
+                                    loading.show();
+                                }
+                                myWebView.loadUrl("https://www.rdxshop.com/");
                                 WebSettings webSettings = myWebView.getSettings();
                                 webSettings.setJavaScriptEnabled(true);
                                 myWebView.setWebViewClient(new MyWebViewClient());
@@ -256,7 +292,10 @@ public class MainActivity extends AppCompatActivity {
                                             launchNetworkRequest();
                                             setContentView(R.layout.activity_main);
                                             myWebView = (WebView) findViewById(R.id.webview);
-                                            myWebView.loadUrl("http://rdxshop.com/");
+                                            if (!loading.isShowing()) {
+                                                loading.show();
+                                            }
+                                            myWebView.loadUrl("https://www.rdxshop.com/");
                                             WebSettings webSettings = myWebView.getSettings();
                                             webSettings.setJavaScriptEnabled(true);
                                             myWebView.setWebViewClient(new MyWebViewClient());
@@ -282,7 +321,10 @@ public class MainActivity extends AppCompatActivity {
                                             launchNetworkRequest();
                                             setContentView(R.layout.activity_main);
                                             myWebView = (WebView) findViewById(R.id.webview);
-                                            myWebView.loadUrl("http://rdxshop.com/");
+                                            if (!loading.isShowing()) {
+                                                loading.show();
+                                            }
+                                            myWebView.loadUrl("https://www.rdxshop.com/");
                                             WebSettings webSettings = myWebView.getSettings();
                                             webSettings.setJavaScriptEnabled(true);
                                             myWebView.setWebViewClient(new MyWebViewClient());
@@ -335,6 +377,7 @@ public class MainActivity extends AppCompatActivity {
 
         @JavascriptInterface
         public void showGoogleLogin(String toast) {
+            authRedirectURL = toast;
             signIn();
         }
 
@@ -366,7 +409,7 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(mContext, auth, Toast.LENGTH_SHORT).show();
             setContentView(R.layout.activity_main);
             myWebView = (WebView) findViewById(R.id.webview);
-            myWebView.loadUrl("http://rdxshop.com/");
+            myWebView.loadUrl("https://www.rdxshop.com/");
             WebSettings webSettings = myWebView.getSettings();
             webSettings.setJavaScriptEnabled(true);
             myWebView.setWebViewClient(new MyWebViewClient());
@@ -383,16 +426,40 @@ public class MainActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == RC_SIGN_IN) {
+        if (requestCode == RC_SIGN_IN && resultCode == RESULTCODE_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             handleSignInResult(task);
             Toast.makeText(this, "Signed In.", Toast.LENGTH_SHORT).show();
-        } else if (requestCode == RESULT_CANCELED) {
+        } else if (requestCode == RC_SIGN_IN && resultCode == RESULTCODE_SIGN_IN_FAILED) {
             Toast.makeText(this, "Sign in cancelled.", Toast.LENGTH_SHORT).show();
-            finish();
-        }
-    }
+           // finish();
+            setContentView(R.layout.activity_main);
+            myWebView = (WebView) findViewById(R.id.webview);
+            loading = new ProgressDialog(MainActivity.this);
+            loading.setMessage("Please wait loading...");
+            loading.show();
+            myWebView.loadUrl("https://www.rdxshop.com/login.php");
+            WebSettings webSettings = myWebView.getSettings();
+            webSettings.setJavaScriptEnabled(true);
+            myWebView.setWebViewClient(new MyWebViewClient() );
+            myWebView.addJavascriptInterface(new WebAppInterface(MainActivity.this), "Android");
+            myWebView.getSettings().setDomStorageEnabled(true);
+            //Cookie manager for the webview
+            CookieManager cookieManager = CookieManager.getInstance();
+            cookieManager.setAcceptCookie(true);
 
+            //Get outer container
+            mContainer = (FrameLayout) findViewById(R.id.webview_frame);
+            webSettings.setAppCacheEnabled(true);
+            webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
+            webSettings.setSupportMultipleWindows(true);
+
+            myWebView.setWebViewClient(new MyCustomWebViewClient());
+            myWebView.setScrollBarStyle(View.SCROLLBARS_OUTSIDE_OVERLAY);
+
+            myWebView.setWebChromeClient(new MyCustomChromeClient());
+            }
+    }
 
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
@@ -400,6 +467,7 @@ public class MainActivity extends AppCompatActivity {
             if (account != null) {
                 usernameGoogle = account.getDisplayName();
                 sessionGoogleEmail = account.getEmail();
+                gmailLoginNetworkRequest();
             }
 
         }catch (ApiException e) {
@@ -416,7 +484,7 @@ public class MainActivity extends AppCompatActivity {
             };
             }
 
-            @Override
+        @Override
             public void onBackPressed() {
             if (doubleBackToExitPressedOnce) {
                 super.onBackPressed();
@@ -443,11 +511,22 @@ public class MainActivity extends AppCompatActivity {
                     // connected to the internet
                     if (activeNetwork.getType() == ConnectivityManager.TYPE_WIFI) {
                         // connected to wifi
-                        if (url.startsWith("http://rdxshop.com/payment")) {
+                         if (url.startsWith("https://www.rdxshop.com/payment.php")) {
                             Intent cartIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                             startActivity(cartIntent);
                             return true;
-                            }
+                        }
+
+                        else if (Uri.parse(url).getHost().equals("www.rdxshop.com")) {
+                            // This is my website, so do not override; let my WebView load the page
+                                                     return false;
+                        }
+
+                        else if (url.startsWith("https://www.rdxshop.com/payment-pay.php")) {
+                            Intent cartIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                            startActivity(cartIntent);
+                            return true;
+                        }
 
                             else if (url.startsWith("https://securegw.paytm.in/theia/processTransaction")) {
                             // This is my website, so do not override; let my WebView load the page
@@ -456,7 +535,7 @@ public class MainActivity extends AppCompatActivity {
                             return true;
                         }
 
-                        else if (url.startsWith("http://rdxshop.com/pay/paytm/index.php?tokenid=")) {
+                        else if (url.startsWith("https://www.rdxshop.com/pay/paytm/index.php?tokenid=")) {
                             // This is my website, so do not override; let my WebView load the page
                             Intent cartIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                             startActivity(cartIntent);
@@ -464,30 +543,25 @@ public class MainActivity extends AppCompatActivity {
                         }
 
 
-                        else if (url.startsWith("http://rdxshop.com/payumoney/")) {
+                        else if (url.startsWith("https://www.rdxshop.com/payumoney/")) {
                             // This is my website, so do not override; let my WebView load the page
                             Intent cartIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                             startActivity(cartIntent);
                             return true;
                         }
 
-                        else if (url.startsWith("http://rdxshop.com/facebook/")) {
+                        else if (url.startsWith("https://www.rdxshop.com/facebook/")) {
                             // This is my website, so do not override; let my WebView load the page
                             Intent cartIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                             startActivity(cartIntent);
                             return true;
                         }
 
-                        else if (url.startsWith("http://rdxshop.com/google/")) {
+                        else if (url.startsWith("https://www.rdxshop.com/google/")) {
                             // This is my website, so do not override; let my WebView load the page
                             Intent cartIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                             startActivity(cartIntent);
                             return true;
-                        }
-
-                        else if (Uri.parse(url).getHost().equals("rdxshop.com")) {
-                            // This is my website, so do not override; let my WebView load the page
-                            return false;
                         }
 
                         else if (Uri.parse(url).getHost().equals("paytm.in")) {
@@ -519,11 +593,23 @@ public class MainActivity extends AppCompatActivity {
 
                         else if (activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE) {
                         // connected to mobile data
-                        if (url.startsWith("http://rdxshop.com/payment")) {
+
+                          if (url.startsWith("https://www.rdxshop.com/payment.php")) {
                             Intent cartIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                             startActivity(cartIntent);
                             return true;
                         }
+
+                          else if (Uri.parse(url).getHost().equals("www.rdxshop.com")) {
+                            // This is my website, so do not override; let my WebView load the page
+                            return false;
+                        }
+
+                        else if (url.startsWith("https://www.rdxshop.com/payment-pay.php")) {
+                           Intent cartIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                           startActivity(cartIntent);
+                           return true;
+                       }
 
                         else if (url.startsWith("https://securegw.paytm.in/theia/processTransaction")) {
                             Intent cartIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
@@ -531,37 +617,32 @@ public class MainActivity extends AppCompatActivity {
                             return true;
                         }
 
-                        else if (url.startsWith("http://rdxshop.com/pay/paytm/index.php?tokenid=")) {
+                        else if (url.startsWith("https://www.rdxshop.com/pay/paytm/index.php?tokenid=")) {
                             // This is my website, so do not override; let my WebView load the page
                             Intent cartIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                             startActivity(cartIntent);
                             return true;
                         }
 
-                        else if (url.startsWith("http://rdxshop.com/facebook/")) {
+                        else if (url.startsWith("https://www.rdxshop.com/facebook/")) {
                             // This is my website, so do not override; let my WebView load the page
                             Intent cartIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                             startActivity(cartIntent);
                             return true;
                         }
 
-                        else if (url.startsWith("http://rdxshop.com/google/")) {
+                        else if (url.startsWith("https://www.rdxshop.com/google/")) {
                             // This is my website, so do not override; let my WebView load the page
                             Intent cartIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                             startActivity(cartIntent);
                             return true;
                         }
 
-                        else if (url.startsWith("http://rdxshop.com/payumoney/")) {
+                        else if (url.startsWith("https://www.rdxshop.com/payumoney/")) {
                             // This is my website, so do not override; let my WebView load the page
                             Intent cartIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                             startActivity(cartIntent);
                             return true;
-                        }
-
-                        else if (Uri.parse(url).getHost().equals("rdxshop.com")) {
-                            // This is my website, so do not override; let my WebView load the page
-                            return false;
                         }
 
                         else if (Uri.parse(url).getHost().equals("paytm.in")) {
@@ -603,7 +684,7 @@ public class MainActivity extends AppCompatActivity {
                                     // connected to wifi
                                     setContentView(R.layout.activity_main);
                                     myWebView = (WebView) findViewById(R.id.webview);
-                                    myWebView.loadUrl("http://rdxshop.com/");
+                                    myWebView.loadUrl("https://www.rdxshop.com/");
                                     WebSettings webSettings = myWebView.getSettings();
                                     webSettings.setJavaScriptEnabled(true);
                                     myWebView.setWebViewClient(new MyWebViewClient());
@@ -628,7 +709,7 @@ public class MainActivity extends AppCompatActivity {
                                     // connected to mobile data
                                     setContentView(R.layout.activity_main);
                                     myWebView = (WebView) findViewById(R.id.webview);
-                                    myWebView.loadUrl("http://rdxshop.com/");
+                                    myWebView.loadUrl("https://www.rdxshop.com/");
                                     WebSettings webSettings = myWebView.getSettings();
                                     webSettings.setJavaScriptEnabled(true);
                                     myWebView.setWebViewClient(new MyWebViewClient());
@@ -663,9 +744,25 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
                 return true;
             }
-        }
 
-        @Override
+              /*  @Override
+                public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                    super.onPageStarted(view, url, favicon);
+                    if (!loading.isShowing()) {
+                        loading.show();
+                    }
+                    } */
+
+                @Override
+                public void onPageFinished(WebView view, String url) {
+                    super.onPageFinished(view, url);
+                    if (loading.isShowing()) {
+                        loading.dismiss();
+                    }
+                    }
+                    }
+
+                @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         // Check if the key event was the Back button and if there's history
         if ((keyCode == KeyEvent.KEYCODE_BACK) && myWebView.canGoBack()) {
@@ -684,7 +781,7 @@ public class MainActivity extends AppCompatActivity {
     private void launchNetworkRequest() {
 
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://rdxshop.com/api/providenowlogin.php";
+        String url = "https://www.rdxshop.com/api/providenowlogin.php";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
@@ -701,9 +798,9 @@ public class MainActivity extends AppCompatActivity {
                             session.setusertoken(tokenApi);
                             sessionToken = session.getusertoken();
                             if (authToken.isEmpty()) {
-                                myWebView.loadUrl("http://rdxshop.com/");
+                                myWebView.loadUrl("https://www.rdxshop.com/");
                             } else if (!authToken.isEmpty()) {
-                                myWebView.loadUrl("http://rdxshop.com/index.php?auth_token="+authToken);
+                                myWebView.loadUrl("https://www.rdxshop.com/index.php?auth_token="+authToken);
                             }
                         } catch(Exception e) {
                             e.printStackTrace();
@@ -726,14 +823,11 @@ public class MainActivity extends AppCompatActivity {
         queue.add(stringRequest);
     }
 
-
-
-
     private void ButtonNetworkRequest(String ramdomId) {
         final String RandomId = ramdomId;
 
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://rdxshop.com/api/thisishavelogin.php";
+        String url = "https://www.rdxshop.com/api/thisishavelogin.php";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
@@ -772,7 +866,7 @@ public class MainActivity extends AppCompatActivity {
     private void logoutNetworkRequest() {
 
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://rdxshop.com/api/makeitlogout.php";
+        String url = "https://www.rdxshop.com/api/makeitlogout.php";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
@@ -783,9 +877,7 @@ public class MainActivity extends AppCompatActivity {
                             JSONObject jsonObject = new JSONObject(jsonResponse);
                             String status = jsonObject.getString("status");
                             String message = jsonObject.getString("message");
-
-
-                        }
+                            }
                         catch(Exception e) {
                             e.printStackTrace();
                         }
@@ -812,7 +904,14 @@ public class MainActivity extends AppCompatActivity {
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             String host = Uri.parse(url).getHost();
             //Log.d("shouldOverrideUrlLoading", url);
-            if (host.equals("examinationwarrior.com"))
+
+            if (url.startsWith("https://www.rdxshop.com/payment.php")) {
+                Intent cartIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                startActivity(cartIntent);
+                return true;
+            }
+
+            else if (host.equals("www.rdxshop.com"))
             {
                 // This is my web site, so do not override; let my WebView load
                 // the page
@@ -835,6 +934,73 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
 
+            else if (url.startsWith("https://www.rdxshop.com/payment-pay.php")) {
+                Intent cartIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                startActivity(cartIntent);
+                return true;
+            }
+
+            else if (url.startsWith("https://securegw.paytm.in/theia/processTransaction")) {
+                // This is my website, so do not override; let my WebView load the page
+                Intent cartIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                startActivity(cartIntent);
+                return true;
+            }
+
+            else if (url.startsWith("https://www.rdxshop.com/pay/paytm/index.php?tokenid=")) {
+                // This is my website, so do not override; let my WebView load the page
+                Intent cartIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                startActivity(cartIntent);
+                return true;
+            }
+
+
+            else if (url.startsWith("https://www.rdxshop.com/payumoney/")) {
+                // This is my website, so do not override; let my WebView load the page
+                Intent cartIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                startActivity(cartIntent);
+                return true;
+            }
+
+            else if (url.startsWith("https://www.rdxshop.com/facebook/")) {
+                // This is my website, so do not override; let my WebView load the page
+                Intent cartIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                startActivity(cartIntent);
+                return true;
+            }
+
+            else if (url.startsWith("https://www.rdxshop.com/google/")) {
+                // This is my website, so do not override; let my WebView load the page
+                Intent cartIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                startActivity(cartIntent);
+                return true;
+            }
+
+            else if (Uri.parse(url).getHost().equals("paytm.in")) {
+                // This is my website, so do not override; let my WebView load the page
+                return false;
+            }
+
+            else if (Uri.parse(url).getHost().equals("accounts.paytm.in")) {
+                // This is my website, so do not override; let my WebView load the page
+                return false;
+            }
+
+            else if (Uri.parse(url).getHost().equals("accounts.paytm.com")) {
+                // This is my website, so do not override; let my WebView load the page
+                return false;
+            }
+
+            else if (Uri.parse(url).getHost().equals("paytm.com")) {
+                // This is my website, so do not override; let my WebView load the page
+                return false;
+            }
+
+            else if (Uri.parse(url).getHost().equals("sandboxsecure.payu.in")) {
+                // This is my website, so do not override; let my WebView load the page
+                return false;
+            }
+
             // Otherwise, the link is not for a page on my site, so launch
             // another Activity that handles URLs
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
@@ -849,11 +1015,85 @@ public class MainActivity extends AppCompatActivity {
             //super.onReceivedSslError(view, handler, error);
         }
 
+     //   @Override
+     //   public void onPageStarted(WebView view, String url, Bitmap favicon) {
+     //       super.onPageStarted(view, url, favicon);
+     //       }
+
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            super.onPageFinished(view, url);
+            if (loading.isShowing()) {
+                loading.dismiss();
+            }
+        }
+
+    }
+
+    private void gmailLoginNetworkRequest() {
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = "https://www.rdxshop.com/api/loginwithgoogleplus.php";
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            String jsonResponse = response.toString().trim();
+                            //   jsonResponse = jsonResponse.substring(3);
+                            JSONObject jsonObject = new JSONObject(jsonResponse);
+                            String status = jsonObject.getString("status");
+                            String tokenApi = jsonObject.getString("tokenApi");
+                            String authToken = jsonObject.getString("auth_token");
+                            session.setusertoken("");
+                            session.setusertoken(tokenApi);
+                            sessionToken = session.getusertoken();
+                            setContentView(R.layout.activity_main);
+                            myWebView = (WebView) findViewById(R.id.webview);
+                            myWebView.loadUrl(authRedirectURL+"&auth_token="+authToken+"&deviceId="+android_id+"&tokenApi="+tokenApi);
+                            WebSettings webSettings = myWebView.getSettings();
+                            webSettings.setJavaScriptEnabled(true);
+                            myWebView.setWebViewClient(new MyWebViewClient());
+                            myWebView.addJavascriptInterface(new WebAppInterface(MainActivity.this), "Android");
+                            myWebView.getSettings().setDomStorageEnabled(true);
+                            //Cookie manager for the webview
+                            CookieManager cookieManager = CookieManager.getInstance();
+                            cookieManager.setAcceptCookie(true);
+
+                            //Get outer container
+                            mContainer = (FrameLayout) findViewById(R.id.webview_frame);
+                            webSettings.setAppCacheEnabled(true);
+                            webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
+                            webSettings.setSupportMultipleWindows(true);
+
+                            myWebView.setWebViewClient(new MyCustomWebViewClient());
+                            myWebView.setScrollBarStyle(View.SCROLLBARS_OUTSIDE_OVERLAY);
+
+                            myWebView.setWebChromeClient(new MyCustomChromeClient());
+                            }
+                        catch(Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(), "Error Occurred", Toast.LENGTH_SHORT).show();
+            }
+
+        }) { @Override
+        protected Map<String, String> getParams() {
+            Map<String, String> params = new HashMap<String, String>();
+            params.put("deviceId", android_id);
+            params.put("email", sessionGoogleEmail);
+            return params;
+        }
+        };
+        queue.add(stringRequest);
     }
 
     private class MyCustomChromeClient extends WebChromeClient
     {
-
         @Override
         public boolean onCreateWindow(WebView view, boolean isDialog,
                                       boolean isUserGesture, Message resultMsg) {
@@ -869,7 +1109,6 @@ public class MainActivity extends AppCompatActivity {
             WebView.WebViewTransport transport = (WebView.WebViewTransport) resultMsg.obj;
             transport.setWebView(mWebviewPop);
             resultMsg.sendToTarget();
-
             return true;
         }
 
@@ -879,6 +1118,7 @@ public class MainActivity extends AppCompatActivity {
         }
         }
 }
+
 
 
 

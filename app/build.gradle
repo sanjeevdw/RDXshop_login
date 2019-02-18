@@ -26,14 +26,14 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.rdxshop.rdxshop"
-        minSdkVersion 23
+        minSdkVersion 16
         targetSdkVersion 28
         manifestPlaceholders = [
                 onesignal_app_id               : 'a9ceecc5-b911-4dfd-a63b-1f31c0efe79e',
                 // Project number pulled from dashboard, local value is ignored.
                 onesignal_google_project_number: 'REMOTE'
         ]
-        versionCode 16
+        versionCode 17
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
