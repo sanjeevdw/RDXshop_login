@@ -85,13 +85,7 @@ public class MainActivity extends AppCompatActivity {
             super.onCreate(savedInstanceState);
             this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-        /*   loading = new ProgressDialog(this);
-           loading.setCancelable(true);
-           loading.setMessage("Loading Wait while loading...");
-           loading.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-           loading.show(); */
-
-           // OneSignal Initialization
+            // OneSignal Initialization
             OneSignal.startInit(this)
                     .inFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification)
                     .unsubscribeWhenNotificationsAreDisabled(true)
@@ -129,8 +123,6 @@ public class MainActivity extends AppCompatActivity {
 
                     loading = new ProgressDialog(this);
                     loading.setMessage("Please wait while loading");
-                    
-
 
                     setContentView(R.layout.activity_main);
                     this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
